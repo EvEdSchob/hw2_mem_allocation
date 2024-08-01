@@ -4,7 +4,7 @@ Class: CS4541
 Assignment: Memory Allocation
 Author: Evan Schober
 */
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -27,6 +27,9 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
         printf("Invalid input! [f]irst/[b]est\n./mam_alloc input.csv (i||e) (f||b)\n");
         return -1;
     }
+
+    //TODO: Switch for implicit/explicit free-list
+    //TODO: Switch for first/best fit algorithms
     
     size_t heapsize = 0; //Storage for current size of heap
 
@@ -37,7 +40,27 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
     FILE *input_fd = fopen(input, "r"); //Open the input csv in "read-only" mode
     getline(&buffer, &length, input_fd); //Read first line from the file
     do{
-        
+        //TODO: Complete strsep operations for each field
+        char func; //Separate function
+        size_t size; //Separate size
+        char* dest; //Separate destination
+        switch (func)
+        {
+        case 'a': //Alloc
+            myAlloc(size);
+            break;
+        case 'r': //Realloc
+            myRealloc(dest, size);
+            break;
+
+        case 'f': //Free
+            myFree(dest);
+            break;
+        default:
+            printf("Invalid input from csv file!");
+            break;
+        }
+
     } while(strchr(buffer, '\n')); //Continue reading lines until the last character 
 
 }
