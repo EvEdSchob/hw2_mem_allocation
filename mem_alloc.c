@@ -28,12 +28,14 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
         return -1;
     }
 
-    //TODO: Switch for implicit/explicit free-list
-    //TODO: Switch for first/best fit algorithms
+
+    char ie = *argv[2];
+    char fb = *argv[3];
+    
     
     size_t heapsize = 0; //Storage for current size of heap
 
-    char *buffer = NULL; //Buffer used to parse files
+    char *buffer = NULL; //Buffer used to parse input file
     size_t length = 0; //# of chars returned by getline()
 
     char *input = argv[1];
@@ -41,7 +43,7 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
     getline(&buffer, &length, input_fd); //Read first line from the file
     do{
         //TODO: Complete strsep operations for each field
-        char func; //Separate function
+        char func; //Separate function code
         size_t size; //Separate size
         char* dest; //Separate destination
         switch (func)
@@ -69,8 +71,13 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
 //1) myAlloc(n)
 //receive integer value of bytes to allocate
 //return "pointer" of the starting address of the payload in the allocated block
-void myAlloc(size_t n){
-    //Make non-void
+char * myAlloc(size_t n){
+    char * ptr;
+    //Generate new free-list entry
+    //Step through free-list
+    //If no free space is found for new entry
+    //mySbrk(n); //Increase heap size
+    return ptr;
 }
 
 //2) myRealloc(*,n)
@@ -80,6 +87,10 @@ void myAlloc(size_t n){
 //myRealloc(*, 0) = myfree()
 void myRealloc(char* ptr, size_t n){
     //Make non-void
+    //Find specified entry in free list
+    //Free specified
+    //Allocate new entry
+    //Return pointer to new block
 }
 
 //3) myFree(*)
@@ -95,6 +106,13 @@ void myFree(char * ptr){
 //returns an error if sizeof(heap) > HEAPMAX
 void mySbrk(size_t n){
     //Make non-void
+    size_t newHeap; //
     //Return error
+    if (newHeap > HEAPMAX)
+    {
+        printf("Heap max size exceeded!\n");
+        //Exit program?
+    }
+    
 }
 
