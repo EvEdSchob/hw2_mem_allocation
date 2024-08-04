@@ -10,7 +10,9 @@ Author: Evan Schober
 #include <stdlib.h>
 #include <fcntl.h>
 
-#define HEAPMAX 100000 //
+#define HEAPMAX 100000 //Defines the maximum size of the heap
+
+
 
 int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/[e]xplicit, [f]irst-fit/[b]est-fit}
     if(argc != 4) {
@@ -49,7 +51,7 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
         switch (func)
         {
         case 'a': //Alloc
-            myAlloc(size);
+            myAlloc(size, ie, fb);
             break;
         case 'r': //Realloc
             myRealloc(dest, size);
@@ -71,10 +73,18 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
 //1) myAlloc(n)
 //receive integer value of bytes to allocate
 //return "pointer" of the starting address of the payload in the allocated block
-char * myAlloc(size_t n){
+char * myAlloc(size_t n, char ie, char fb){
     char * ptr;
     //Generate new free-list entry
     //Step through free-list
+    if (fb = 'f')
+    {
+        //First-Fit
+    }
+    else
+    {
+        //Best-Fit
+    }
     //If no free space is found for new entry
     //mySbrk(n); //Increase heap size
     return ptr;
@@ -89,7 +99,9 @@ void myRealloc(char* ptr, size_t n){
     //Make non-void
     //Find specified entry in free list
     //Free specified
+    //myFree(ptr);
     //Allocate new entry
+    //myAlloc(n);
     //Return pointer to new block
 }
 
