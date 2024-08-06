@@ -12,7 +12,25 @@ Author: Evan Schober
 
 #define HEAPMAX 100000 //Defines the maximum size of the heap
 
+typedef struct{
+    int * prev; //Previous node in Free List
+    int * next; //Next node in Free List
+    size_t payload; //Size of the memory block
+}NODE_E;
 
+typedef struct{
+    
+}NODE_I;
+
+typedef struct{
+    char func;
+    int par1;
+    int par2;
+    int par3
+}REQUEST;
+
+//Function primatives
+REQUEST* readLine(char* buf);
 
 int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/[e]xplicit, [f]irst-fit/[b]est-fit}
     if(argc != 4) {
@@ -79,11 +97,11 @@ char * myAlloc(size_t n, char ie, char fb){
     //Step through free-list
     if (fb = 'f')
     {
-        //First-Fit
+        //First-Fit - Step through each list until a free entry of the appropriate size is found
     }
     else
     {
-        //Best-Fit
+        //Best-Fit - Step through the entire list and pick the option with the one with the least extra
     }
     //If no free space is found for new entry
     //mySbrk(n); //Increase heap size
@@ -128,3 +146,18 @@ void mySbrk(size_t n){
     
 }
 
+REQUEST* readLine(char* buf){
+    //Generate new 
+    REQUEST* req = malloc(sizeof(REQUEST));
+
+    char* bufp = buf;
+    char* token = NULL;
+    token = strsep(&bufp, ",\n");
+    req->func = strdup(token);
+    while (/* condition */)
+    {
+        /* code */
+    }
+    
+
+}
