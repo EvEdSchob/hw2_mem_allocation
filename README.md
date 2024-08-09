@@ -8,3 +8,5 @@ Author: Evan schober
 
 gcc -std=c99 -Wall -o mem_alloc mem_alloc.c
 
+Sources: 
+I used some of my own work from CS2340 as reference for parsing the CSV file

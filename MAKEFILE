@@ -1,10 +1,9 @@
 CC=gcc
 
-all: run
+all: mem_alloc
 
-run: mem_alloc.c
+mem_alloc: mem_alloc.c
 	$(CC) -std=c99 -Wall -o mem_alloc mem_alloc.c
 	
 clean:
 	rm -f mem_alloc *.o
-	
