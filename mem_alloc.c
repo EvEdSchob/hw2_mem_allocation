@@ -12,21 +12,18 @@ Author: Evan Schober
 
 #define HEAPMAX 100000 //Defines the maximum size of the heap
 
+//Explicit free list entry
 typedef struct{
-    int * prev; //Previous node in Free List
-    int * next; //Next node in Free List
+    NODE_E * prev; //Previous node in Free List
+    NODE_E * next; //Next node in Free List
     size_t payload; //Size of the memory block
 }NODE_E;
 
-typedef struct{
-    
-}NODE_I;
-
+//Node of singly linked list which will hold all requests
 typedef struct{
     char func;
-    int par1;
-    int par2;
-    int par3
+    int param[3];
+    REQUEST * next; 
 }REQUEST;
 
 //Function primatives
@@ -34,20 +31,19 @@ REQUEST* readLine(char* buf);
 
 int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/[e]xplicit, [f]irst-fit/[b]est-fit}
     if(argc != 4) {
-        printf("Too many/few arguments!\n./mam_alloc input.csv (i||e) (f||b)\n");
+        printf("Too many/few arguments!\n./mem_alloc input.csv (i||e) (f||b)\n");
         return -1;
     }
 
     if(*argv[2] != 'i' && *argv[2] != 'e') {
-        printf("Invalid input! [i]mplicit/[e]xplicit\n./mam_alloc input.csv (i||e) (f||b)\n");
+        printf("Invalid input! [i]mplicit/[e]xplicit\n./mem_alloc input.csv (i||e) (f||b)\n");
         return -1;
     }
     
     if(*argv[3] != 'f' && *argv[2] != 'b') {
-        printf("Invalid input! [f]irst/[b]est\n./mam_alloc input.csv (i||e) (f||b)\n");
+        printf("Invalid input! [f]irst/[b]est\n./mem_alloc input.csv (i||e) (f||b)\n");
         return -1;
     }
-
 
     char ie = *argv[2];
     char fb = *argv[3];
@@ -60,28 +56,38 @@ int main(int argc, char *argv[]){ //argv[] = {mem_alloc, input_file, [i]mplicit/
 
     char *input = argv[1];
     FILE *input_fd = fopen(input, "r"); //Open the input csv in "read-only" mode
+    REQUEST head; //Blank request struct to act as the head of the request list
+    REQUEST cursor; //"Cursor" node for following the linked list
+    head = cursor; 
     getline(&buffer, &length, input_fd); //Read first line from the file
     do{
-        //TODO: Complete strsep operations for each field
-        char func; //Separate function code
-        size_t size; //Separate size
-        char* dest; //Separate destination
-        switch (func)
-        {
-        case 'a': //Alloc
-            myAlloc(size, ie, fb);
-            break;
-        case 'r': //Realloc
-            myRealloc(dest, size);
-            break;
 
-        case 'f': //Free
-            myFree(dest);
-            break;
-        default:
-            printf("Invalid input from csv file!");
-            break;
-        }
+        REQUEST * req = readLine(&buffer); //Create new list item
+        cursor.next = req; //Attach to the current node in the list
+        cursor = cursor.next; //Move cursor to the new request
+        getline(&buffer, &length, input_fd); //Read next line from the file
+
+
+        //TODO: Complete strsep operations for each field
+        // char func; //Separate function code
+        // size_t size; //Separate size
+        // char* dest; //Separate destination
+        // switch (func)
+        // {
+        // case 'a': //Alloc
+        //     myAlloc(size, ie, fb);
+        //     break;
+        // case 'r': //Realloc
+        //     myRealloc(dest, size);
+        //     break;
+
+        // case 'f': //Free
+        //     myFree(dest);
+        //     break;
+        // default:
+        //     printf("Invalid input from csv file!");
+        //     break;
+        // }
 
     } while(strchr(buffer, '\n')); //Continue reading lines until the last character 
 
@@ -154,10 +160,13 @@ REQUEST* readLine(char* buf){
     char* token = NULL;
     token = strsep(&bufp, ",\n");
     req->func = strdup(token);
-    while (/* condition */)
+    token = strsep(&bufp, ",\n");
+    int i = 0;
+    while (token != "\n")
     {
-        /* code */
+        req->param[i] = atoi(token);
+        i++;
+        token = strsep(&bufp, ",\n");
     }
-    
-
+    return req;
 }
